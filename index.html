@@ -8,66 +8,81 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
+        
         .cell-animation {
             animation: float 3s ease-in-out infinite;
         }
+        
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
+        
         .microscope-view {
             background: radial-gradient(circle, #f0f9ff 0%, #e0f2fe 50%, #0369a1 100%);
             border: 8px solid #1e40af;
         }
+        
         .cell {
             position: absolute;
             border-radius: 50%;
             cursor: pointer;
             transition: all 0.3s ease;
         }
+        
         .red-cell {
             background: #dc2626;
             width: 8px;
             height: 8px;
         }
+        
         .white-cell {
             background: #7c3aed;
             width: 12px;
             height: 12px;
         }
+        
         .platelet-cell {
             background: #16a34a;
             width: 3px;
             height: 3px;
         }
+        
         .cell:hover {
             transform: scale(1.5);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
         }
+        
         .step-card {
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
         }
+        
         .step-card.active {
             border-left-color: #3b82f6;
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
         }
+        
         .step-card.completed {
             border-left-color: #10b981;
             background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
         }
+        
         .equipment-item {
             transition: all 0.3s ease;
             cursor: pointer;
         }
+        
         .equipment-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
+        
         .equipment-item.selected {
             border: 3px solid #3b82f6;
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
         }
+        
         .neubauer-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -76,6 +91,7 @@
             padding: 4px;
             border: 3px solid #1f2937;
         }
+        
         .grid-square {
             background: #f9fafb;
             aspect-ratio: 1;
@@ -87,19 +103,23 @@
             gap: 1px;
             padding: 2px;
         }
+        
         .grid-square.counting {
             background: #fef3c7;
             border-color: #f59e0b;
         }
+        
         .sub-square {
             background: #ffffff;
             border: 0.5px solid #d1d5db;
             aspect-ratio: 1;
             position: relative;
         }
+        
         .sub-square:hover {
             background: #e5e7eb;
         }
+        
         .main-grid-label {
             position: absolute;
             top: -25px;
@@ -117,6 +137,7 @@
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-2">🔬 Laboratorio Virtual</h1>
             <p class="text-xl text-gray-600">Técnica de Conteo Celular - Cámara de Neubauer</p>
+            
             <!-- Game Stats Panel -->
             <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <!-- Score Panel -->
@@ -127,6 +148,7 @@
                         <div class="text-xs opacity-75 mt-1">Nivel: <span id="playerLevel">Principiante</span></div>
                     </div>
                 </div>
+                
                 <!-- Timer Panel -->
                 <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-4 shadow-lg">
                     <div class="text-white">
@@ -135,6 +157,7 @@
                         <div class="text-xs opacity-75 mt-1">Límite: <span id="timeLimit">5:00</span></div>
                     </div>
                 </div>
+                
                 <!-- Current Exercise Stats -->
                 <div class="bg-gradient-to-r from-green-500 to-teal-600 rounded-lg p-4 shadow-lg">
                     <div class="text-white">
@@ -144,6 +167,7 @@
                     </div>
                 </div>
             </div>
+            
             <!-- Cell Counts -->
             <div class="mt-4 bg-white rounded-lg p-4 shadow-md">
                 <div class="flex justify-center space-x-8">
@@ -162,6 +186,7 @@
                 </div>
             </div>
         </div>
+
         <div class="grid lg:grid-cols-3 gap-8">
             <!-- Steps Panel -->
             <div class="lg:col-span-1">
@@ -177,39 +202,247 @@
                     </div>
                 </div>
             </div>
+
             <!-- Main Work Area -->
             <div class="lg:col-span-2">
                 <!-- Cell Type Selection -->
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-6" id="cellTypeSelection">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">🎯 Selecciona el Tipo de Célula a Contar</h3>
                     <div class="grid grid-cols-3 gap-4">
-                        <button onclick="selectCellType('red', event)" class="cell-type-btn bg-red-100 hover:bg-red-200 border-2 border-red-300 rounded-lg p-4 text-center transition-all">
+                        <button onclick="selectCellType('red')" class="cell-type-btn bg-red-100 hover:bg-red-200 border-2 border-red-300 rounded-lg p-4 text-center transition-all">
                             <div class="text-3xl mb-2">🔴</div>
                             <div class="font-medium text-red-800">Glóbulos Rojos</div>
                             <div class="text-sm text-red-600 mt-1">Eritrocitos</div>
                         </button>
-                        <button onclick="selectCellType('white', event)" class="cell-type-btn bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 rounded-lg p-4 text-center transition-all">
+                        <button onclick="selectCellType('white')" class="cell-type-btn bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 rounded-lg p-4 text-center transition-all">
                             <div class="text-3xl mb-2">⚪</div>
                             <div class="font-medium text-purple-800">Glóbulos Blancos</div>
                             <div class="text-sm text-purple-600 mt-1">Leucocitos</div>
                         </button>
-                        <button onclick="selectCellType('platelet', event)" class="cell-type-btn bg-green-100 hover:bg-green-200 border-2 border-green-300 rounded-lg p-4 text-center transition-all">
+                        <button onclick="selectCellType('platelet')" class="cell-type-btn bg-green-100 hover:bg-green-200 border-2 border-green-300 rounded-lg p-4 text-center transition-all">
                             <div class="text-3xl mb-2">🟢</div>
                             <div class="font-medium text-green-800">Plaquetas</div>
                             <div class="text-sm text-green-600 mt-1">Trombocitos</div>
                         </button>
                     </div>
                 </div>
+
                 <!-- Equipment Selection -->
                 <div class="bg-white rounded-xl shadow-lg p-6 mb-6" id="equipmentSelection" style="display: none;">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">🧪 Selecciona los Materiales Apropiados</h3>
-                    <!-- (El resto del contenido permanece igual) -->
-                    <!-- Tubos, pipetas, etc. -->
-                    <!-- ... (mismo HTML) -->
+                    
+                    <!-- Anticoagulant Tubes -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-3">Tubo con Anticoagulante:</h4>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="equipment-item bg-purple-50 border-2 border-purple-200 rounded-lg p-3 text-center" data-type="tube" data-value="edta">
+                                <div class="text-2xl mb-1">🟣</div>
+                                <div class="text-sm font-medium">EDTA</div>
+                                <div class="text-xs text-gray-600">Tapa morada</div>
+                            </div>
+                            <div class="equipment-item bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center" data-type="tube" data-value="citrate">
+                                <div class="text-2xl mb-1">🔵</div>
+                                <div class="text-sm font-medium">Citrato</div>
+                                <div class="text-xs text-gray-600">Tapa azul</div>
+                            </div>
+                            <div class="equipment-item bg-green-50 border-2 border-green-200 rounded-lg p-3 text-center" data-type="tube" data-value="heparin">
+                                <div class="text-2xl mb-1">🟢</div>
+                                <div class="text-sm font-medium">Heparina</div>
+                                <div class="text-xs text-gray-600">Tapa verde</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pipettes -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-3">Pipeta:</h4>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="equipment-item bg-gray-50 border-2 border-gray-200 rounded-lg p-3 text-center" data-type="pipette" data-value="thoma-red">
+                                <div class="text-2xl mb-1">🔬</div>
+                                <div class="text-sm font-medium">Thoma Roja</div>
+                                <div class="text-xs text-gray-600">Glóbulos rojos</div>
+                            </div>
+                            <div class="equipment-item bg-gray-50 border-2 border-gray-200 rounded-lg p-3 text-center" data-type="pipette" data-value="thoma-white">
+                                <div class="text-2xl mb-1">🔬</div>
+                                <div class="text-sm font-medium">Thoma Blanca</div>
+                                <div class="text-xs text-gray-600">Glóbulos blancos</div>
+                            </div>
+                            <div class="equipment-item bg-gray-50 border-2 border-gray-200 rounded-lg p-3 text-center" data-type="pipette" data-value="micropipette">
+                                <div class="text-2xl mb-1">💉</div>
+                                <div class="text-sm font-medium">Micropipeta</div>
+                                <div class="text-xs text-gray-600">Alternativa</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Diluents -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-3">Solución Diluyente:</h4>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="equipment-item bg-blue-50 border-2 border-blue-200 rounded-lg p-3 text-center" data-type="diluent" data-value="saline">
+                                <div class="text-2xl mb-1">💧</div>
+                                <div class="text-sm font-medium">Sol. Salina</div>
+                                <div class="text-xs text-gray-600">Glóbulos rojos</div>
+                            </div>
+                            <div class="equipment-item bg-yellow-50 border-2 border-yellow-200 rounded-lg p-3 text-center" data-type="diluent" data-value="turk">
+                                <div class="text-2xl mb-1">🟡</div>
+                                <div class="text-sm font-medium">Líquido de Turk</div>
+                                <div class="text-xs text-gray-600">Glóbulos blancos</div>
+                            </div>
+                            <div class="equipment-item bg-orange-50 border-2 border-orange-200 rounded-lg p-3 text-center" data-type="diluent" data-value="ammonium">
+                                <div class="text-2xl mb-1">🟠</div>
+                                <div class="text-sm font-medium">Oxalato de Amonio</div>
+                                <div class="text-xs text-gray-600">Plaquetas</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blood Volume -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-700 mb-3">Volumen de Sangre:</h4>
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="equipment-item bg-red-50 border-2 border-red-200 rounded-lg p-3 text-center" data-type="volume" data-value="0.5">
+                                <div class="text-2xl mb-1">🩸</div>
+                                <div class="text-sm font-medium">0.5 μL</div>
+                                <div class="text-xs text-gray-600">Glóbulos rojos</div>
+                            </div>
+                            <div class="equipment-item bg-purple-50 border-2 border-purple-200 rounded-lg p-3 text-center" data-type="volume" data-value="0.5">
+                                <div class="text-2xl mb-1">🩸</div>
+                                <div class="text-sm font-medium">0.5 μL</div>
+                                <div class="text-xs text-gray-600">Glóbulos blancos</div>
+                            </div>
+                            <div class="equipment-item bg-green-50 border-2 border-green-200 rounded-lg p-3 text-center" data-type="volume" data-value="20">
+                                <div class="text-2xl mb-1">🩸</div>
+                                <div class="text-sm font-medium">20 μL</div>
+                                <div class="text-xs text-gray-600">Plaquetas</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="validateEquipment()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors">
+                        ✅ Confirmar Selección de Materiales
+                    </button>
                 </div>
+
                 <!-- Microscope View -->
                 <div class="bg-white rounded-xl shadow-lg p-6" id="microscopeView" style="display: none;">
-                    <!-- (mismo contenido) -->
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">🔬 Vista del Microscopio - Cámara de Neubauer</h3>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-sm text-gray-600">
+                            <span class="font-medium">Objetivo:</span> <span id="currentObjective">10x</span> |
+                            <span class="font-medium">Dilución:</span> <span id="currentDilution">1:200</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="changeObjective()" class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded text-sm">
+                                🔍 Cambiar Objetivo
+                            </button>
+                            <button onclick="generateNewSample()" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                                🔄 Nueva Muestra
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="microscope-view rounded-lg mx-auto relative" style="width: 400px; height: 400px;" id="microscopeField">
+                        <div class="neubauer-grid w-full h-full">
+                            <!-- Grid squares will be generated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-gray-600 mb-2">Haz clic en las células para contarlas. Los cuadros amarillos son las áreas de conteo.</p>
+                        <p class="text-xs text-blue-600 mb-3" id="gridDescription">📏 Cuadrícula 5×5: Cada cuadro principal contiene 16 subcuadros (4×4) para conteo detallado</p>
+                        <div class="flex justify-center space-x-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-red-600 rounded-full"></div>
+                                <span class="text-sm">Glóbulos Rojos</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-purple-600 rounded-full"></div>
+                                <span class="text-sm">Glóbulos Blancos</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-green-600 rounded-full"></div>
+                                <span class="text-sm">Plaquetas</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-xs text-gray-500" id="countingInstructions">
+                            💡 Para glóbulos rojos: Cuenta solo en los 5 cuadros marcados (esquinas + centro)
+                        </div>
+                    </div>
+
+                    <!-- Manual Calculation Exercise -->
+                    <div class="mt-6 bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4" id="manualExercise">
+                        <h4 class="font-medium text-gray-800 mb-3">🧮 Ejercicio de Cálculo Manual</h4>
+                        <div class="text-sm text-yellow-800 mb-4">
+                            <span id="exerciseInstructions">Ingresa el número de células que observas en cada cuadrante y calcula el resultado final.</span>
+                        </div>
+                        
+                        <!-- Quadrant Input Grid -->
+                        <div class="grid gap-3 mb-4" id="quadrantInputs" style="grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));">
+                            <!-- Inputs will be generated by JavaScript -->
+                        </div>
+                        
+                        <!-- Manual Calculation Section -->
+                        <div class="bg-white rounded-lg p-4 mb-4">
+                            <h5 class="font-medium text-gray-700 mb-3">📝 Realiza tu Cálculo:</h5>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm font-medium text-gray-600 w-32">Total de células:</label>
+                                    <input type="number" id="totalCellsInput" class="border border-gray-300 rounded px-3 py-1 w-20 text-center" placeholder="0">
+                                    <span class="text-sm text-gray-500">(suma de todos los cuadrantes)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm font-medium text-gray-600 w-32">Factor de cálculo:</label>
+                                    <input type="number" id="factorInput" class="border border-gray-300 rounded px-3 py-1 w-20 text-center" placeholder="0">
+                                    <span class="text-sm text-gray-500" id="factorHint">(según la fórmula)</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <label class="text-sm font-medium text-gray-600 w-32">Resultado final:</label>
+                                    <input type="number" id="finalResultInput" class="border border-gray-300 rounded px-3 py-1 w-24 text-center" placeholder="0">
+                                    <span class="text-sm text-gray-500">células/μL</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-3 mt-4">
+                                <button onclick="checkManualCalculation()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
+                                    ✅ Verificar Cálculo
+                                </button>
+                                <button onclick="showHint()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded text-sm">
+                                    💡 Pista
+                                </button>
+                                <button onclick="generateNewExercise()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                                    🔄 Nuevo Ejercicio
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Results and Feedback -->
+                        <div id="exerciseFeedback" class="hidden">
+                            <!-- Feedback will be shown here -->
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-gray-50 rounded-lg p-4">
+                        <h4 class="font-medium text-gray-800 mb-2">📊 Cálculo Automático (Referencia)</h4>
+                        <div class="text-sm text-gray-600 mb-2">
+                            <span id="formulaDescription">Fórmula: (Células contadas × Factor de dilución × 10⁴) / (Área contada × Profundidad)</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-lg font-bold text-red-600" id="redResult">0</div>
+                                <div class="text-xs">células/μL</div>
+                            </div>
+                            <div>
+                                <div class="text-lg font-bold text-purple-600" id="whiteResult">0</div>
+                                <div class="text-xs">células/μL</div>
+                            </div>
+                            <div>
+                                <div class="text-lg font-bold text-green-600" id="plateletResult">0</div>
+                                <div class="text-xs">células/μL</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -223,6 +456,7 @@
                     <div class="text-2xl">🔬</div>
                     <h3 class="text-xl font-semibold">Laboratorio Virtual - Conteo Celular</h3>
                 </div>
+                
                 <div class="border-t border-gray-600 pt-4">
                     <p class="text-sm text-gray-300 mb-2">
                         © 2025 <span class="font-medium text-white">Patología Clínica II</span>
@@ -230,20 +464,41 @@
                     <p class="text-sm text-gray-400">
                         Creado por <span class="font-medium text-blue-300">Adriana A. Barrios Rodríguez</span>
                     </p>
+                    <div class="mt-3 text-xs text-gray-500">
+                        <p>Sistema educativo interactivo para el aprendizaje de técnicas de laboratorio clínico</p>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // --- VARIABLES GLOBALES ---
         let currentStep = 0;
         let selectedCellType = '';
-        let selectedEquipment = { tube: '', pipette: '', diluent: '', volume: '' };
-        let cellCounts = { red: 0, white: 0, platelet: 0 };
+        let selectedEquipment = {
+            tube: '',
+            pipette: '',
+            diluent: '',
+            volume: ''
+        };
+        let cellCounts = {
+            red: 0,
+            white: 0,
+            platelet: 0
+        };
         let currentObjective = '10x';
         let currentDilution = '1:200';
-        let actualCellCounts = [];
+        
+        // Exercise variables
+        let exerciseData = {
+            quadrantCounts: [],
+            correctTotal: 0,
+            correctFactor: 0,
+            correctResult: 0,
+            hintsUsed: 0
+        };
+
+        // Game System Variables
         let gameStats = {
             totalScore: 0,
             exerciseScore: 0,
@@ -251,47 +506,1103 @@
             exercisesCompleted: 0,
             perfectExercises: 0,
             startTime: null,
-            timeLimit: 300,
+            timeLimit: 300, // 5 minutes in seconds
             timerInterval: null,
             timeBonus: 1.0,
             penalties: 0
         };
 
-        // --- FUNCIONES ---
+        // Scoring system
+        const SCORING = {
+            CORRECT_QUADRANT: 50,
+            CORRECT_TOTAL: 100,
+            CORRECT_FACTOR: 75,
+            CORRECT_RESULT: 150,
+            PERFECT_EXERCISE: 500,
+            TIME_BONUS_MAX: 2.0,
+            PENALTY_WRONG_QUADRANT: -25,
+            PENALTY_TIME_EXCEEDED: -100,
+            PENALTY_HINT_USED: -10
+        };
 
-        function selectCellType(type, event) {
-            event.preventDefault();
+        // Level thresholds
+        const LEVELS = [
+            { name: 'Principiante', minScore: 0, timeLimit: 300 },
+            { name: 'Estudiante', minScore: 1000, timeLimit: 240 },
+            { name: 'Practicante', minScore: 2500, timeLimit: 180 },
+            { name: 'Técnico', minScore: 5000, timeLimit: 150 },
+            { name: 'Especialista', minScore: 10000, timeLimit: 120 },
+            { name: 'Experto', minScore: 20000, timeLimit: 90 }
+        ];
+
+        const steps = [
+            {
+                title: "Selección del Tipo Celular",
+                description: "Determina qué tipo de células vas a contar",
+                icon: "🎯"
+            },
+            {
+                title: "Selección del Anticoagulante",
+                description: "Elige el tubo con anticoagulante apropiado",
+                icon: "🧪"
+            },
+            {
+                title: "Selección de Pipeta",
+                description: "Escoge la pipeta Thoma correcta o micropipeta",
+                icon: "🔬"
+            },
+            {
+                title: "Selección del Diluyente",
+                description: "Elige la solución diluyente adecuada",
+                icon: "💧"
+            },
+            {
+                title: "Preparación de la Muestra",
+                description: "Mezcla la muestra con el diluyente",
+                icon: "⚗️"
+            },
+            {
+                title: "Carga de la Cámara",
+                description: "Llena la cámara de Neubauer",
+                icon: "📏"
+            },
+            {
+                title: "Observación Microscópica",
+                description: "Enfoca y cuenta las células",
+                icon: "🔍"
+            },
+            {
+                title: "Cálculo de Resultados",
+                description: "Aplica la fórmula para obtener el recuento",
+                icon: "📊"
+            }
+        ];
+
+        const correctEquipment = {
+            red: {
+                tube: 'edta',
+                pipette: 'thoma-red',
+                diluent: 'saline',
+                volume: '0.5'
+            },
+            white: {
+                tube: 'edta',
+                pipette: 'thoma-white',
+                diluent: 'turk',
+                volume: '0.5'
+            },
+            platelet: {
+                tube: 'edta',
+                pipette: 'thoma-red',
+                diluent: 'ammonium',
+                volume: '20'
+            }
+        };
+
+        // Game System Functions
+        function updateGameDisplay() {
+            document.getElementById('totalScore').textContent = gameStats.totalScore.toLocaleString();
+            document.getElementById('exerciseScore').textContent = gameStats.exerciseScore;
+            document.getElementById('timeBonus').textContent = 'x' + gameStats.timeBonus.toFixed(1);
+            
+            // Update level
+            const currentLevel = getCurrentLevel();
+            document.getElementById('playerLevel').textContent = currentLevel.name;
+            document.getElementById('timeLimit').textContent = formatTime(currentLevel.timeLimit);
+            gameStats.timeLimit = currentLevel.timeLimit;
+        }
+
+        function getCurrentLevel() {
+            for (let i = LEVELS.length - 1; i >= 0; i--) {
+                if (gameStats.totalScore >= LEVELS[i].minScore) {
+                    return LEVELS[i];
+                }
+            }
+            return LEVELS[0];
+        }
+
+        function startTimer() {
+            if (gameStats.timerInterval) {
+                clearInterval(gameStats.timerInterval);
+            }
+            
+            gameStats.startTime = Date.now();
+            const currentLevel = getCurrentLevel();
+            let timeRemaining = currentLevel.timeLimit;
+            
+            gameStats.timerInterval = setInterval(() => {
+                timeRemaining--;
+                document.getElementById('timer').textContent = formatTime(timeRemaining);
+                
+                // Update time bonus (decreases as time passes)
+                const timeElapsed = currentLevel.timeLimit - timeRemaining;
+                const timeProgress = timeElapsed / currentLevel.timeLimit;
+                gameStats.timeBonus = Math.max(1.0, SCORING.TIME_BONUS_MAX - timeProgress);
+                document.getElementById('timeBonus').textContent = 'x' + gameStats.timeBonus.toFixed(1);
+                
+                // Change timer color based on remaining time
+                const timerElement = document.getElementById('timer');
+                if (timeRemaining <= 30) {
+                    timerElement.parentElement.parentElement.className = 'bg-gradient-to-r from-red-500 to-red-600 rounded-lg p-4 shadow-lg';
+                } else if (timeRemaining <= 60) {
+                    timerElement.parentElement.parentElement.className = 'bg-gradient-to-r from-orange-500 to-red-500 rounded-lg p-4 shadow-lg';
+                } else {
+                    timerElement.parentElement.parentElement.className = 'bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-4 shadow-lg';
+                }
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(gameStats.timerInterval);
+                    handleTimeExpired();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (gameStats.timerInterval) {
+                clearInterval(gameStats.timerInterval);
+                gameStats.timerInterval = null;
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function handleTimeExpired() {
+            gameStats.exerciseScore += SCORING.PENALTY_TIME_EXCEEDED;
+            showScoreAnimation(SCORING.PENALTY_TIME_EXCEEDED, 'penalty');
+            
+            const feedbackDiv = document.getElementById('exerciseFeedback');
+            feedbackDiv.classList.remove('hidden');
+            feedbackDiv.className = 'border-2 rounded-lg p-4 bg-red-100 border-red-300 text-red-800';
+            feedbackDiv.innerHTML = `
+                <h5 class="font-medium mb-2">⏰ ¡Tiempo Agotado!</h5>
+                <p class="text-sm">Se ha aplicado una penalización de ${SCORING.PENALTY_TIME_EXCEEDED} puntos.</p>
+                <p class="text-sm mt-2">💡 Intenta ser más rápido en el próximo ejercicio para obtener mejores bonificaciones.</p>
+            `;
+            
+            // Show correct answers
+            showCorrectAnswers();
+        }
+
+        function showScoreAnimation(points, type = 'gain') {
+            const scoreElement = document.getElementById('exerciseScore');
+            const animation = document.createElement('div');
+            animation.className = `absolute text-2xl font-bold pointer-events-none z-50 ${type === 'penalty' ? 'text-red-500' : 'text-green-500'}`;
+            animation.textContent = (points > 0 ? '+' : '') + points;
+            animation.style.left = scoreElement.offsetLeft + 'px';
+            animation.style.top = scoreElement.offsetTop + 'px';
+            
+            scoreElement.parentElement.appendChild(animation);
+            
+            // Animate the score popup
+            let opacity = 1;
+            let translateY = 0;
+            const animationInterval = setInterval(() => {
+                opacity -= 0.05;
+                translateY -= 2;
+                animation.style.opacity = opacity;
+                animation.style.transform = `translateY(${translateY}px)`;
+                
+                if (opacity <= 0) {
+                    clearInterval(animationInterval);
+                    animation.remove();
+                }
+            }, 50);
+        }
+
+        function calculateExerciseScore() {
+            let score = 0;
+            let perfectScore = true;
+            
+            // Check quadrant accuracy
+            const quadrantInputs = document.querySelectorAll('.quadrant-input');
+            quadrantInputs.forEach((input, index) => {
+                const userValue = parseInt(input.value) || 0;
+                const correctValue = exerciseData.quadrantCounts[index];
+                if (userValue === correctValue) {
+                    score += SCORING.CORRECT_QUADRANT;
+                } else {
+                    score += SCORING.PENALTY_WRONG_QUADRANT;
+                    perfectScore = false;
+                }
+            });
+            
+            // Check total
+            const totalInput = parseInt(document.getElementById('totalCellsInput').value) || 0;
+            if (totalInput === exerciseData.correctTotal) {
+                score += SCORING.CORRECT_TOTAL;
+            } else {
+                perfectScore = false;
+            }
+            
+            // Check factor
+            const factorInput = parseInt(document.getElementById('factorInput').value) || 0;
+            if (factorInput === exerciseData.correctFactor) {
+                score += SCORING.CORRECT_FACTOR;
+            } else {
+                perfectScore = false;
+            }
+            
+            // Check final result
+            const resultInput = parseInt(document.getElementById('finalResultInput').value) || 0;
+            if (resultInput === exerciseData.correctResult) {
+                score += SCORING.CORRECT_RESULT;
+            } else {
+                perfectScore = false;
+            }
+            
+            // Perfect exercise bonus
+            if (perfectScore) {
+                score += SCORING.PERFECT_EXERCISE;
+                gameStats.perfectExercises++;
+            }
+            
+            // Apply time bonus
+            score = Math.floor(score * gameStats.timeBonus);
+            
+            // Subtract hint penalties
+            score += (exerciseData.hintsUsed * SCORING.PENALTY_HINT_USED);
+            
+            return { score: Math.max(0, score), perfectScore };
+        }
+
+        function levelUp() {
+            const oldLevel = getCurrentLevel();
+            const newLevel = getCurrentLevel();
+            
+            if (oldLevel.name !== newLevel.name) {
+                // Show level up animation
+                const levelUpDiv = document.createElement('div');
+                levelUpDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                levelUpDiv.innerHTML = `
+                    <div class="bg-white rounded-xl p-8 text-center shadow-2xl transform animate-bounce">
+                        <div class="text-6xl mb-4">🎉</div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">¡Nivel Alcanzado!</h2>
+                        <p class="text-xl text-gray-600 mb-4">Ahora eres: <span class="font-bold text-blue-600">${newLevel.name}</span></p>
+                        <p class="text-sm text-gray-500 mb-4">Nuevo límite de tiempo: ${formatTime(newLevel.timeLimit)}</p>
+                        <button onclick="this.parentElement.parentElement.remove()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                            ¡Continuar!
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(levelUpDiv);
+            }
+        }
+
+        function initializeSteps() {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            
+            steps.forEach((step, index) => {
+                const stepElement = document.createElement('div');
+                stepElement.className = `step-card bg-gray-50 rounded-lg p-4 ${index === 0 ? 'active' : ''}`;
+                stepElement.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="text-2xl">${step.icon}</div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-800">${step.title}</div>
+                            <div class="text-sm text-gray-600">${step.description}</div>
+                        </div>
+                        <div class="text-sm font-medium text-gray-500">${index + 1}/8</div>
+                    </div>
+                `;
+                container.appendChild(stepElement);
+            });
+        }
+
+        function updateStepStatus(stepIndex, status = 'active') {
+            const steps = document.querySelectorAll('.step-card');
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < stepIndex) {
+                    step.classList.add('completed');
+                } else if (index === stepIndex) {
+                    step.classList.add(status);
+                }
+            });
+        }
+
+        function selectCellType(type) {
             selectedCellType = type;
-            console.log("Célula seleccionada:", type);
+            
+            // Update button styles
+            document.querySelectorAll('.cell-type-btn').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-blue-300');
+            });
+            event.target.closest('.cell-type-btn').classList.add('ring-4', 'ring-blue-300');
+            
+            // Show equipment selection
+            setTimeout(() => {
+                document.getElementById('cellTypeSelection').style.display = 'none';
+                document.getElementById('equipmentSelection').style.display = 'block';
+                currentStep = 1;
+                updateStepStatus(currentStep);
+            }, 500);
+        }
 
-            // Ocultar selección y mostrar equipos
-            document.getElementById('cellTypeSelection').style.display = 'none';
-            document.getElementById('equipmentSelection').style.display = 'block';
-            currentStep = 1;
-
-            // Aquí deberías actualizar los pasos (asegúrate de tener la función updateStepStatus)
-            // updateStepStatus(currentStep);
+        function setupEquipmentSelection() {
+            document.querySelectorAll('.equipment-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const type = this.dataset.type;
+                    const value = this.dataset.value;
+                    
+                    // Remove selection from same type
+                    document.querySelectorAll(`[data-type="${type}"]`).forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    
+                    // Add selection to clicked item
+                    this.classList.add('selected');
+                    selectedEquipment[type] = value;
+                });
+            });
         }
 
         function validateEquipment() {
-            alert("Validando equipo... (función en desarrollo)");
+            // Check if all equipment is selected
+            if (!selectedEquipment.tube || !selectedEquipment.pipette || !selectedEquipment.diluent || !selectedEquipment.volume) {
+                alert('⚠️ Por favor selecciona todos los materiales y el volumen de sangre antes de continuar.');
+                return;
+            }
+
+            const correct = correctEquipment[selectedCellType];
+            let isCorrect = true;
+            let feedback = [];
+
+            console.log('Selected:', selectedEquipment);
+            console.log('Correct:', correct);
+            console.log('Cell type:', selectedCellType);
+
+            if (selectedEquipment.tube !== correct.tube) {
+                isCorrect = false;
+                feedback.push(`❌ Anticoagulante incorrecto. Para ${selectedCellType === 'red' ? 'glóbulos rojos' : selectedCellType === 'white' ? 'glóbulos blancos' : 'plaquetas'} se recomienda EDTA.`);
+            }
+
+            if (selectedEquipment.pipette !== correct.pipette) {
+                isCorrect = false;
+                feedback.push(`❌ Pipeta incorrecta. Usa ${correct.pipette === 'thoma-red' ? 'Thoma Roja' : 'Thoma Blanca'}.`);
+            }
+
+            if (selectedEquipment.diluent !== correct.diluent) {
+                isCorrect = false;
+                const correctDiluent = correct.diluent === 'saline' ? 'Solución Salina' : 
+                                     correct.diluent === 'turk' ? 'Líquido de Turk' : 'Oxalato de Amonio';
+                feedback.push(`❌ Diluyente incorrecto. Usa ${correctDiluent}.`);
+            }
+
+            if (selectedEquipment.volume !== correct.volume) {
+                isCorrect = false;
+                const correctVolume = correct.volume === '0.5' ? '0.5 μL' : '20 μL';
+                feedback.push(`❌ Volumen de sangre incorrecto. Para ${selectedCellType === 'red' ? 'glóbulos rojos' : selectedCellType === 'white' ? 'glóbulos blancos' : 'plaquetas'} usa ${correctVolume}.`);
+            }
+
+            if (isCorrect) {
+                alert('✅ ¡Excelente! Has seleccionado todos los materiales y volumen correctos.');
+                proceedToMicroscopy();
+            } else {
+                alert(feedback.join('\n\n') + '\n\n💡 Revisa tu selección e intenta nuevamente.');
+            }
+        }
+
+        function proceedToMicroscopy() {
+            document.getElementById('equipmentSelection').style.display = 'none';
+            document.getElementById('microscopeView').style.display = 'block';
+            currentStep = 6;
+            updateStepStatus(currentStep);
+            updateCountingInstructions();
+            setupNeubauerGrid();
+            generateCells();
+            setupManualExercise();
+        }
+
+        function updateCountingInstructions() {
+            const instructionsElement = document.getElementById('countingInstructions');
+            const gridDescriptionElement = document.getElementById('gridDescription');
+            const formulaElement = document.getElementById('formulaDescription');
+            
+            if (selectedCellType === 'white') {
+                instructionsElement.innerHTML = '💡 Para glóbulos blancos: Cuenta solo en los 4 cuadros de las esquinas (cuadrícula 3×3)';
+                gridDescriptionElement.innerHTML = '📏 Cuadrícula 3×3: Cada cuadro principal contiene 16 subcuadros (4×4) para conteo de leucocitos';
+                formulaElement.innerHTML = 'Fórmula para Glóbulos Blancos: <strong>Cantidad de glóbulos blancos contabilizados × 50</strong>';
+            } else if (selectedCellType === 'red') {
+                instructionsElement.innerHTML = '💡 Para glóbulos rojos: Cuenta solo en los 5 cuadros marcados (esquinas + centro)';
+                gridDescriptionElement.innerHTML = '📏 Cuadrícula 5×5: Cada cuadro principal contiene 16 subcuadros (4×4) para conteo detallado';
+                formulaElement.innerHTML = 'Fórmula para Glóbulos Rojos: <strong>Total de eritrocitos contabilizados × 10,000</strong>';
+            } else {
+                instructionsElement.innerHTML = '💡 Para plaquetas: Cuenta en TODA la cuadrícula 5×5 (todos los 25 cuadros principales)';
+                gridDescriptionElement.innerHTML = '📏 Cuadrícula 5×5: Cada cuadro principal contiene 16 subcuadros (4×4) - Conteo completo para plaquetas';
+                formulaElement.innerHTML = 'Fórmula para Plaquetas: <strong>Células contadas × 1000</strong>';
+            }
+        }
+
+        function setupNeubauerGrid() {
+            const grid = document.querySelector('.neubauer-grid');
+            grid.innerHTML = '';
+            
+            // Determine grid configuration based on selected cell type
+            let gridSize, subGridSize, countingSquares, gridColumns;
+            
+            if (selectedCellType === 'white') {
+                // White blood cells: 3x3 grid with 4x4 subdivisions
+                gridSize = 9;
+                subGridSize = 16;
+                countingSquares = [0, 2, 6, 8]; // Corner squares
+                gridColumns = 3;
+                grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            } else if (selectedCellType === 'red') {
+                // Red blood cells: 5x5 grid with 4x4 subdivisions - count in 5 squares
+                gridSize = 25;
+                subGridSize = 16;
+                countingSquares = [0, 4, 12, 20, 24]; // Corners and center
+                gridColumns = 5;
+                grid.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            } else {
+                // Platelets: 5x5 grid with 4x4 subdivisions - count in ALL 25 squares
+                gridSize = 25;
+                subGridSize = 16;
+                countingSquares = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]; // All squares
+                gridColumns = 5;
+                grid.style.gridTemplateColumns = 'repeat(5, 1fr)';
+            }
+            
+            for (let i = 0; i < gridSize; i++) {
+                const square = document.createElement('div');
+                square.className = 'grid-square';
+                square.dataset.index = i;
+                
+                // Add label for main squares
+                const label = document.createElement('div');
+                label.className = 'main-grid-label';
+                if (selectedCellType === 'white') {
+                    // For 3x3 grid: A1, A2, A3, B1, B2, B3, C1, C2, C3
+                    label.textContent = String.fromCharCode(65 + Math.floor(i / 3)) + (i % 3 + 1);
+                } else {
+                    // For 5x5 grid: A1-A5, B1-B5, etc.
+                    label.textContent = String.fromCharCode(65 + Math.floor(i / 5)) + (i % 5 + 1);
+                }
+                square.appendChild(label);
+                
+                // Create sub-squares within each main square - always 4x4 for all cell types
+                square.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                
+                for (let j = 0; j < subGridSize; j++) {
+                    const subSquare = document.createElement('div');
+                    subSquare.className = 'sub-square';
+                    subSquare.dataset.mainIndex = i;
+                    subSquare.dataset.subIndex = j;
+                    square.appendChild(subSquare);
+                }
+                
+                // Mark counting squares based on cell type
+                if (countingSquares.includes(i)) {
+                    square.classList.add('counting');
+                }
+                
+                grid.appendChild(square);
+            }
+        }
+
+        // Global variable to store actual cell counts per quadrant
+        let actualCellCounts = [];
+
+        function generateCells(forceNew = false) {
+            // Clear existing cells
+            document.querySelectorAll('.cell').forEach(cell => cell.remove());
+            
+            const countingSquares = document.querySelectorAll('.grid-square.counting');
+            console.log(`Generating cells for ${selectedCellType}, found ${countingSquares.length} counting squares`);
+            
+            // Reset actual cell counts only if forcing new or if empty
+            if (forceNew || actualCellCounts.length === 0) {
+                actualCellCounts = [];
+            }
+            let totalCellsCreated = 0;
+            
+            countingSquares.forEach((square, squareIndex) => {
+                const subSquares = square.querySelectorAll('.sub-square');
+                
+                // Use the same counts from the exercise if it exists and not forcing new, otherwise generate new ones
+                let cellsPerSquare;
+                if (!forceNew && actualCellCounts.length > squareIndex && actualCellCounts[squareIndex] !== undefined) {
+                    cellsPerSquare = actualCellCounts[squareIndex];
+                } else {
+                    // Generate realistic cell counts per main square
+                    if (selectedCellType === 'red') {
+                        cellsPerSquare = Math.floor(Math.random() * 21) + 80; // 80-100 células
+                    } else if (selectedCellType === 'white') {
+                        cellsPerSquare = Math.floor(Math.random() * 16) + 10; // 10-25 células
+                    } else {
+                        // Plaquetas: 8-20 células por cuadro principal
+                        cellsPerSquare = Math.floor(Math.random() * 13) + 8; // 8-20 células
+                    }
+                    
+                    // Store the actual count for this quadrant
+                    actualCellCounts[squareIndex] = cellsPerSquare;
+                }
+                
+                console.log(`Square ${squareIndex}: generating ${cellsPerSquare} cells`);
+                
+                // For platelets, ensure even distribution across all 16 sub-squares
+                if (selectedCellType === 'platelet') {
+                    // Calculate base cells per sub-square and remainder
+                    const baseCellsPerSubSquare = Math.floor(cellsPerSquare / 16);
+                    const remainder = cellsPerSquare % 16;
+                    
+                    // Create array to track cells per sub-square
+                    const cellsDistribution = new Array(16).fill(baseCellsPerSubSquare);
+                    
+                    // Distribute remainder randomly
+                    for (let i = 0; i < remainder; i++) {
+                        const randomIndex = Math.floor(Math.random() * 16);
+                        cellsDistribution[randomIndex]++;
+                    }
+                    
+                    // Place cells in each sub-square
+                    subSquares.forEach((subSquare, subIndex) => {
+                        const cellsInThisSubSquare = cellsDistribution[subIndex];
+                        
+                        for (let i = 0; i < cellsInThisSubSquare; i++) {
+                            const cell = document.createElement('div');
+                            cell.className = `cell ${selectedCellType}-cell`;
+                            cell.dataset.type = selectedCellType;
+                            cell.dataset.quadrant = squareIndex; // Track which quadrant this cell belongs to
+                            
+                            // Position within the specific sub-square
+                            const gridRect = document.querySelector('.neubauer-grid').getBoundingClientRect();
+                            const squareRect = square.getBoundingClientRect();
+                            
+                            // Calculate sub-square position (4x4 grid within main square)
+                            const subSquareCol = subIndex % 4;
+                            const subSquareRow = Math.floor(subIndex / 4);
+                            const subSquareWidth = squareRect.width / 4;
+                            const subSquareHeight = squareRect.height / 4;
+                            
+                            // Random position within the sub-square
+                            const relativeX = (squareRect.left - gridRect.left) + 
+                                            (subSquareCol * subSquareWidth) + 
+                                            Math.random() * (subSquareWidth - 4);
+                            const relativeY = (squareRect.top - gridRect.top) + 
+                                            (subSquareRow * subSquareHeight) + 
+                                            Math.random() * (subSquareHeight - 4);
+                            
+                            cell.style.left = Math.max(0, relativeX) + 'px';
+                            cell.style.top = Math.max(0, relativeY) + 'px';
+                            
+                            cell.addEventListener('click', function() {
+                                countCell(selectedCellType);
+                                this.style.opacity = '0.3';
+                                this.style.pointerEvents = 'none';
+                                
+                                // Add visual feedback
+                                this.style.transform = 'scale(1.5)';
+                                setTimeout(() => {
+                                    this.style.transform = 'scale(1)';
+                                }, 200);
+                            });
+                            
+                            document.querySelector('.neubauer-grid').appendChild(cell);
+                            totalCellsCreated++;
+                        }
+                    });
+                } else {
+                    // For red and white blood cells, distribute cells evenly across sub-squares
+                    const baseCellsPerSubSquare = Math.floor(cellsPerSquare / subSquares.length);
+                    const remainder = cellsPerSquare % subSquares.length;
+                    
+                    // Create array to track cells per sub-square
+                    const cellsDistribution = new Array(subSquares.length).fill(baseCellsPerSubSquare);
+                    
+                    // Distribute remainder randomly
+                    for (let i = 0; i < remainder; i++) {
+                        const randomIndex = Math.floor(Math.random() * subSquares.length);
+                        cellsDistribution[randomIndex]++;
+                    }
+                    
+                    subSquares.forEach((subSquare, subIndex) => {
+                        const cellsInThisSubSquare = cellsDistribution[subIndex];
+                        
+                        // Place cells in this sub-square
+                        for (let i = 0; i < cellsInThisSubSquare; i++) {
+                            const cell = document.createElement('div');
+                            cell.className = `cell ${selectedCellType}-cell`;
+                            cell.dataset.type = selectedCellType;
+                            cell.dataset.quadrant = squareIndex; // Track which quadrant this cell belongs to
+                            
+                            // Position within the sub-square
+                            const gridRect = document.querySelector('.neubauer-grid').getBoundingClientRect();
+                            const squareRect = square.getBoundingClientRect();
+                            
+                            // Calculate position within the square
+                            const relativeX = (squareRect.left - gridRect.left) + (subIndex % 4) * (squareRect.width / 4) + Math.random() * (squareRect.width / 4 - 8);
+                            const relativeY = (squareRect.top - gridRect.top) + Math.floor(subIndex / 4) * (squareRect.height / 4) + Math.random() * (squareRect.height / 4 - 8);
+                            
+                            cell.style.left = Math.max(0, relativeX) + 'px';
+                            cell.style.top = Math.max(0, relativeY) + 'px';
+                            
+                            cell.addEventListener('click', function() {
+                                countCell(selectedCellType);
+                                this.style.opacity = '0.3';
+                                this.style.pointerEvents = 'none';
+                                
+                                // Add visual feedback
+                                this.style.transform = 'scale(1.5)';
+                                setTimeout(() => {
+                                    this.style.transform = 'scale(1)';
+                                }, 200);
+                            });
+                            
+                            document.querySelector('.neubauer-grid').appendChild(cell);
+                            totalCellsCreated++;
+                        }
+                    });
+                }
+            });
+            
+            console.log(`Total cells created: ${totalCellsCreated}`);
+            console.log('Actual cell counts per quadrant:', actualCellCounts);
+        }
+
+        function countCell(type) {
+            cellCounts[type]++;
+            document.getElementById(`${type}Count`).textContent = cellCounts[type];
+            calculateResults();
+        }
+
+        function calculateResults() {
+            // Cálculos específicos para cada tipo de célula
+            
+            // Glóbulos rojos: Total de eritrocitos contabilizados x 10,000
+            const redResult = cellCounts.red * 10000;
+            
+            // Glóbulos blancos: Cantidad de glóbulos blancos contabilizados x 50
+            const whiteResult = cellCounts.white * 50;
+            
+            // Plaquetas: Células contadas x 1000
+            const plateletResult = cellCounts.platelet * 1000;
+            
+            document.getElementById('redResult').textContent = redResult.toLocaleString();
+            document.getElementById('whiteResult').textContent = whiteResult.toLocaleString();
+            document.getElementById('plateletResult').textContent = plateletResult.toLocaleString();
+        }
+
+        function changeObjective() {
+            currentObjective = currentObjective === '10x' ? '40x' : '10x';
+            document.getElementById('currentObjective').textContent = currentObjective;
+            generateCells();
+        }
+
+        function generateNewSample() {
+            // Reset cell counts
+            cellCounts = { red: 0, white: 0, platelet: 0 };
+            document.getElementById('redCount').textContent = '0';
+            document.getElementById('whiteCount').textContent = '0';
+            document.getElementById('plateletCount').textContent = '0';
+            
+            // Clear exercise data to force new generation
+            exerciseData.quadrantCounts = [];
+            actualCellCounts = [];
+            
+            // Generate new cells with force new flag
+            generateCells(true);
+            
+            // Update the manual exercise with new data
+            setupManualExercise();
+            
+            // Clear any previous feedback
+            document.getElementById('exerciseFeedback').classList.add('hidden');
+            
+            // Reset all input styling
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.value = '';
+                input.classList.remove('border-red-500', 'bg-red-50', 'border-green-500', 'bg-green-50');
+            });
+            
+            // Update results display
+            calculateResults();
         }
 
         function resetProcedure() {
+            currentStep = 0;
+            selectedCellType = '';
+            selectedEquipment = { tube: '', pipette: '', diluent: '', volume: '' };
+            cellCounts = { red: 0, white: 0, platelet: 0 };
+            
+            document.getElementById('cellTypeSelection').style.display = 'block';
             document.getElementById('equipmentSelection').style.display = 'none';
             document.getElementById('microscopeView').style.display = 'none';
-            document.getElementById('cellTypeSelection').style.display = 'block';
-            selectedCellType = '';
-            currentStep = 0;
+            
+            document.querySelectorAll('.cell-type-btn').forEach(btn => {
+                btn.classList.remove('ring-4', 'ring-blue-300');
+            });
+            
+            document.querySelectorAll('.equipment-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            document.getElementById('redCount').textContent = '0';
+            document.getElementById('whiteCount').textContent = '0';
+            document.getElementById('plateletCount').textContent = '0';
+            
+            updateStepStatus(0);
         }
 
-        // --- INICIALIZACIÓN ---
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log("Página cargada correctamente");
-            // Aquí irían las funciones de inicialización
-            // initializeSteps();
-            // setupEquipmentSelection();
+        function setupManualExercise() {
+            const inputsContainer = document.getElementById('quadrantInputs');
+            inputsContainer.innerHTML = '';
+            
+            let numQuadrants, quadrantLabels;
+            
+            if (selectedCellType === 'white') {
+                // 4 quadrants for white blood cells
+                numQuadrants = 4;
+                quadrantLabels = ['A1', 'A3', 'C1', 'C3'];
+            } else if (selectedCellType === 'red') {
+                // 5 quadrants for red blood cells
+                numQuadrants = 5;
+                quadrantLabels = ['A1', 'A5', 'C3', 'E1', 'E5'];
+            } else {
+                // For platelets: use ALL 25 quadrants since they count in the entire grid
+                numQuadrants = 25;
+                quadrantLabels = [];
+                for (let row = 0; row < 5; row++) {
+                    for (let col = 0; col < 5; col++) {
+                        quadrantLabels.push(String.fromCharCode(65 + row) + (col + 1));
+                    }
+                }
+            }
+            
+            // ALWAYS use actual cell counts from the microscope view
+            if (actualCellCounts.length > 0) {
+                // Use the actual cell counts from the generated cells
+                exerciseData.quadrantCounts = [...actualCellCounts];
+                exerciseData.correctTotal = actualCellCounts.reduce((sum, count) => sum + count, 0);
+            } else {
+                // If no actual counts exist, generate them and sync with the microscope
+                exerciseData.quadrantCounts = [];
+                exerciseData.correctTotal = 0;
+                
+                for (let i = 0; i < numQuadrants; i++) {
+                    let count;
+                    if (selectedCellType === 'red') {
+                        count = Math.floor(Math.random() * 21) + 80; // 80-100 cells
+                    } else if (selectedCellType === 'white') {
+                        count = Math.floor(Math.random() * 16) + 10; // 10-25 cells
+                    } else {
+                        count = Math.floor(Math.random() * 13) + 8; // 8-20 cells
+                    }
+                    
+                    exerciseData.quadrantCounts.push(count);
+                    exerciseData.correctTotal += count;
+                }
+                
+                // Store these counts as actual counts for consistency
+                actualCellCounts = [...exerciseData.quadrantCounts];
+            }
+            
+            // Create input for each quadrant
+            for (let i = 0; i < numQuadrants; i++) {
+                const count = exerciseData.quadrantCounts[i];
+                
+                const inputDiv = document.createElement('div');
+                inputDiv.className = 'text-center';
+                
+                // For platelets, show a more compact layout due to 25 quadrants
+                if (selectedCellType === 'platelet') {
+                    inputDiv.innerHTML = `
+                        <label class="block text-xs font-medium text-gray-700 mb-1">${quadrantLabels[i]}</label>
+                        <div class="correct-count bg-gray-100 border border-gray-300 rounded p-1 mb-1 text-sm font-bold text-center min-h-[40px] flex items-center justify-center hidden" data-correct="${count}">
+                            ${count}
+                        </div>
+                        <div class="placeholder-count bg-white border border-dashed border-gray-400 rounded p-1 mb-1 text-sm text-gray-400 text-center min-h-[40px] flex items-center justify-center">
+                            ?
+                        </div>
+                        <input type="number" class="quadrant-input border border-gray-300 rounded px-1 py-1 w-12 text-center text-xs" 
+                               placeholder="?" data-quadrant="${i}" min="0">
+                    `;
+                } else {
+                    inputDiv.innerHTML = `
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cuadrante ${quadrantLabels[i]}</label>
+                        <div class="correct-count bg-gray-100 border-2 border-gray-300 rounded-lg p-2 mb-2 text-lg font-bold text-center min-h-[60px] flex items-center justify-center hidden" data-correct="${count}">
+                            ${count}
+                        </div>
+                        <div class="placeholder-count bg-white border-2 border-dashed border-gray-400 rounded-lg p-2 mb-2 text-lg text-gray-400 text-center min-h-[60px] flex items-center justify-center">
+                            ?
+                        </div>
+                        <input type="number" class="quadrant-input border border-gray-300 rounded px-2 py-1 w-16 text-center text-sm" 
+                               placeholder="?" data-quadrant="${i}" min="0">
+                    `;
+                }
+                inputsContainer.appendChild(inputDiv);
+            }
+            
+            // Set correct calculation factors
+            if (selectedCellType === 'red') {
+                exerciseData.correctFactor = 10000;
+                exerciseData.correctResult = exerciseData.correctTotal * 10000;
+            } else if (selectedCellType === 'white') {
+                exerciseData.correctFactor = 50;
+                exerciseData.correctResult = exerciseData.correctTotal * 50;
+            } else {
+                // For platelets, we'll use a simplified calculation
+                exerciseData.correctFactor = 1000;
+                exerciseData.correctResult = exerciseData.correctTotal * 1000;
+            }
+            
+            // Update instructions and factor hint
+            const instructions = document.getElementById('exerciseInstructions');
+            const factorHint = document.getElementById('factorHint');
+            
+            if (selectedCellType === 'red') {
+                instructions.textContent = 'Cuenta las células en cada cuadrante marcado (esquinas + centro) y calcula el total de glóbulos rojos.';
+                factorHint.textContent = '(para glóbulos rojos = 10,000)';
+            } else if (selectedCellType === 'white') {
+                instructions.textContent = 'Cuenta las células en cada cuadrante de las esquinas y calcula el total de glóbulos blancos.';
+                factorHint.textContent = '(para glóbulos blancos = 50)';
+            } else {
+                instructions.textContent = 'Cuenta las células en TODOS los 25 cuadrantes de la cuadrícula completa y calcula el total de plaquetas.';
+                factorHint.textContent = '(para plaquetas = 1,000)';
+            }
+            
+            exerciseData.hintsUsed = 0;
+            
+            // Reset exercise score and start timer
+            gameStats.exerciseScore = 0;
+            updateGameDisplay();
+            startTimer();
+            
+            // Add event listeners to quadrant inputs for auto-calculation
+            document.querySelectorAll('.quadrant-input').forEach(input => {
+                input.addEventListener('input', updateTotalFromInputs);
+            });
+        }
+        
+        function updateTotalFromInputs() {
+            const inputs = document.querySelectorAll('.quadrant-input');
+            let total = 0;
+            let allFilled = true;
+            
+            inputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                if (input.value === '') allFilled = false;
+                total += value;
+            });
+            
+            if (allFilled) {
+                document.getElementById('totalCellsInput').value = total;
+            }
+        }
+        
+        function checkManualCalculation() {
+            // Stop the timer
+            stopTimer();
+            
+            const totalInput = parseInt(document.getElementById('totalCellsInput').value) || 0;
+            const factorInput = parseInt(document.getElementById('factorInput').value) || 0;
+            const resultInput = parseInt(document.getElementById('finalResultInput').value) || 0;
+            
+            const feedbackDiv = document.getElementById('exerciseFeedback');
+            feedbackDiv.classList.remove('hidden');
+            
+            let feedback = [];
+            let isCorrect = true;
+            
+            // Show correct counts and check quadrant inputs
+            const quadrantInputs = document.querySelectorAll('.quadrant-input');
+            const correctCounts = document.querySelectorAll('.correct-count');
+            const placeholderCounts = document.querySelectorAll('.placeholder-count');
+            
+            // Show the correct counts and hide placeholders
+            correctCounts.forEach(count => count.classList.remove('hidden'));
+            placeholderCounts.forEach(placeholder => placeholder.classList.add('hidden'));
+            
+            let quadrantCorrect = true;
+            quadrantInputs.forEach((input, index) => {
+                const userValue = parseInt(input.value) || 0;
+                const correctValue = exerciseData.quadrantCounts[index];
+                if (userValue !== correctValue) {
+                    quadrantCorrect = false;
+                    input.classList.add('border-red-500', 'bg-red-50');
+                } else {
+                    input.classList.remove('border-red-500', 'bg-red-50');
+                    input.classList.add('border-green-500', 'bg-green-50');
+                }
+            });
+            
+            if (!quadrantCorrect) {
+                feedback.push('❌ Algunos conteos de cuadrantes son incorrectos. Revisa los números mostrados.');
+                isCorrect = false;
+            } else {
+                feedback.push('✅ ¡Conteos de cuadrantes correctos!');
+            }
+            
+            // Check total
+            if (totalInput !== exerciseData.correctTotal) {
+                feedback.push(`❌ Total incorrecto. Debería ser: ${exerciseData.correctTotal}`);
+                isCorrect = false;
+                document.getElementById('totalCellsInput').classList.add('border-red-500', 'bg-red-50');
+            } else {
+                feedback.push('✅ ¡Total correcto!');
+                document.getElementById('totalCellsInput').classList.remove('border-red-500', 'bg-red-50');
+                document.getElementById('totalCellsInput').classList.add('border-green-500', 'bg-green-50');
+            }
+            
+            // Check factor
+            if (factorInput !== exerciseData.correctFactor) {
+                feedback.push(`❌ Factor incorrecto. Para ${selectedCellType === 'red' ? 'glóbulos rojos' : selectedCellType === 'white' ? 'glóbulos blancos' : 'plaquetas'} debería ser: ${exerciseData.correctFactor}`);
+                isCorrect = false;
+                document.getElementById('factorInput').classList.add('border-red-500', 'bg-red-50');
+            } else {
+                feedback.push('✅ ¡Factor correcto!');
+                document.getElementById('factorInput').classList.remove('border-red-500', 'bg-red-50');
+                document.getElementById('factorInput').classList.add('border-green-500', 'bg-green-50');
+            }
+            
+            // Check final result
+            if (resultInput !== exerciseData.correctResult) {
+                feedback.push(`❌ Resultado final incorrecto. Debería ser: ${exerciseData.correctResult.toLocaleString()} células/μL`);
+                isCorrect = false;
+                document.getElementById('finalResultInput').classList.add('border-red-500', 'bg-red-50');
+            } else {
+                feedback.push('✅ ¡Resultado final correcto!');
+                document.getElementById('finalResultInput').classList.remove('border-red-500', 'bg-red-50');
+                document.getElementById('finalResultInput').classList.add('border-green-500', 'bg-green-50');
+            }
+            
+            // Calculate and apply score
+            const scoreResult = calculateExerciseScore();
+            gameStats.exerciseScore = scoreResult.score;
+            gameStats.totalScore += scoreResult.score;
+            gameStats.exercisesCompleted++;
+            
+            // Show score animations
+            showScoreAnimation(scoreResult.score, scoreResult.score > 0 ? 'gain' : 'penalty');
+            
+            // Update display
+            updateGameDisplay();
+            
+            // Check for level up
+            levelUp();
+            
+            // Enhanced feedback with scoring information
+            const feedbackClass = isCorrect ? 'bg-green-100 border-green-300 text-green-800' : 'bg-red-100 border-red-300 text-red-800';
+            feedbackDiv.className = `border-2 rounded-lg p-4 ${feedbackClass}`;
+            
+            let scoreBreakdown = '';
+            if (scoreResult.score > 0) {
+                scoreBreakdown = `
+                    <div class="mt-4 p-3 bg-white bg-opacity-50 rounded-lg">
+                        <h6 class="font-medium mb-2">🏆 Puntuación del Ejercicio: ${scoreResult.score} puntos</h6>
+                        <div class="text-xs space-y-1">
+                            <div>• Bonus de tiempo: x${gameStats.timeBonus.toFixed(1)}</div>
+                            ${scoreResult.perfectScore ? '<div>• ¡Ejercicio perfecto! +500 puntos bonus</div>' : ''}
+                            ${exerciseData.hintsUsed > 0 ? `<div>• Penalización por pistas: ${exerciseData.hintsUsed * SCORING.PENALTY_HINT_USED} puntos</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            feedbackDiv.innerHTML = `
+                <h5 class="font-medium mb-2">${isCorrect ? '🎉 ¡Excelente trabajo!' : '📝 Revisa tu cálculo'}</h5>
+                <ul class="space-y-1 text-sm">
+                    ${feedback.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+                ${scoreBreakdown}
+                ${isCorrect ? '<p class="mt-3 text-sm font-medium">¡Has completado el ejercicio correctamente! Puedes generar un nuevo ejercicio para seguir practicando.</p>' : ''}
+            `;
+        }
+        
+        function showHint() {
+            exerciseData.hintsUsed++;
+            
+            // Apply hint penalty
+            gameStats.exerciseScore += SCORING.PENALTY_HINT_USED;
+            showScoreAnimation(SCORING.PENALTY_HINT_USED, 'penalty');
+            updateGameDisplay();
+            
+            const feedbackDiv = document.getElementById('exerciseFeedback');
+            feedbackDiv.classList.remove('hidden');
+            
+            let hint = '';
+            if (exerciseData.hintsUsed === 1) {
+                hint = `💡 <strong>Pista 1:</strong> Primero suma todos los valores de los cuadrantes. El total debería ser ${exerciseData.correctTotal}.`;
+            } else if (exerciseData.hintsUsed === 2) {
+                hint = `💡 <strong>Pista 2:</strong> El factor de cálculo para ${selectedCellType === 'red' ? 'glóbulos rojos es 10,000' : selectedCellType === 'white' ? 'glóbulos blancos es 50' : 'plaquetas es 1,000'}.`;
+            } else {
+                hint = `💡 <strong>Pista 3:</strong> El resultado final se calcula como: ${exerciseData.correctTotal} × ${exerciseData.correctFactor} = ${exerciseData.correctResult.toLocaleString()} células/μL`;
+            }
+            
+            feedbackDiv.className = 'border-2 rounded-lg p-4 bg-blue-100 border-blue-300 text-blue-800';
+            feedbackDiv.innerHTML = `
+                <p class="text-sm">${hint}</p>
+                <p class="text-xs mt-2 opacity-75">⚠️ Penalización aplicada: ${SCORING.PENALTY_HINT_USED} puntos</p>
+            `;
+        }
+        
+        function generateNewExercise() {
+            // Stop current timer
+            stopTimer();
+            
+            // Reset cell counts
+            cellCounts = { red: 0, white: 0, platelet: 0 };
+            document.getElementById('redCount').textContent = '0';
+            document.getElementById('whiteCount').textContent = '0';
+            document.getElementById('plateletCount').textContent = '0';
+            
+            // Clear all inputs and feedback
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.value = '';
+                input.classList.remove('border-red-500', 'bg-red-50', 'border-green-500', 'bg-green-50');
+            });
+            
+            // Hide correct counts and show placeholders again
+            document.querySelectorAll('.correct-count').forEach(count => count.classList.add('hidden'));
+            document.querySelectorAll('.placeholder-count').forEach(placeholder => placeholder.classList.remove('hidden'));
+            
+            document.getElementById('exerciseFeedback').classList.add('hidden');
+            
+            // Clear exercise data to force completely new generation
+            exerciseData.quadrantCounts = [];
+            exerciseData.correctTotal = 0;
+            exerciseData.correctFactor = 0;
+            exerciseData.correctResult = 0;
+            exerciseData.hintsUsed = 0;
+            actualCellCounts = [];
+            
+            // Reset exercise score
+            gameStats.exerciseScore = 0;
+            gameStats.timeBonus = 1.0;
+            
+            // Generate completely new cells and exercise data
+            generateCells(true);
+            setupManualExercise();
+            
+            // Update results display
+            calculateResults();
+        }
+
+        function showCorrectAnswers() {
+            // Show correct counts and hide placeholders
+            const correctCounts = document.querySelectorAll('.correct-count');
+            const placeholderCounts = document.querySelectorAll('.placeholder-count');
+            
+            correctCounts.forEach(count => count.classList.remove('hidden'));
+            placeholderCounts.forEach(placeholder => placeholder.classList.add('hidden'));
+            
+            // Fill in correct values
+            document.getElementById('totalCellsInput').value = exerciseData.correctTotal;
+            document.getElementById('factorInput').value = exerciseData.correctFactor;
+            document.getElementById('finalResultInput').value = exerciseData.correctResult;
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeSteps();
+            setupEquipmentSelection();
+            updateGameDisplay();
         });
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96cb9e0036148404',t:'MTc1NDc4ODI2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
